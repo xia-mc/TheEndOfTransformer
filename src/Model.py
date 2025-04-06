@@ -1,6 +1,8 @@
 from torch import Tensor
 from torch.nn import Module, Linear, TransformerEncoderLayer, TransformerEncoder
 
+from Const import DTYPE
+
 DMODEL = 64
 HEADS = 4
 LAYERS = 4
@@ -9,9 +11,9 @@ LAYERS = 4
 class Model(Module):
     def __init__(self, featureCount: int, predictLength: int):
         super().__init__()
-        self.input = Linear(featureCount, DMODEL)
-        self.output = Linear(DMODEL, predictLength)
-        layer = TransformerEncoderLayer(DMODEL, HEADS, batch_first=True)
+        self.input = Linear(featureCount, DMODEL, dtype=DTYPE)
+        self.output = Linear(DMODEL, predictLength, dtype=DTYPE)
+        layer = TransformerEncoderLayer(DMODEL, HEADS, batch_first=True, dtype=DTYPE)
         self.encoder = TransformerEncoder(layer, LAYERS)
 
     def forward(self, tensor: Tensor) -> Tensor:

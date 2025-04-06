@@ -7,5 +7,5 @@ PI = numpy.pi
 DATA_TYPE: TypeAlias = float
 DTYPE: TypeAlias = torch.float32
 Array: TypeAlias = numpy.ndarray
-Vector: TypeAlias = Array[DATA_TYPE]
+Vector: TypeAlias = Array[DTYPE]
 Matrix: TypeAlias = Array[Vector]
