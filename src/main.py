@@ -84,7 +84,7 @@ def generateSeq(vector: Matrix, targetIndex: int) -> tuple[Array[Matrix], Array[
 
 
 def train(model: Model, trainLoader: DataLoader, verifyLoader: DataLoader, epochs: int, learningRate: float):
-    device: torch.device = torch.device("cuda")
+    device: torch.device = torch.device("cpu")
     model.to(device)
     optimizer: Optimizer = AdamW(model.parameters(), lr=learningRate)
     lossMethod: MSELoss = MSELoss()
@@ -258,12 +258,13 @@ def main():
 
         tqdm.write(f"    时间: {timeStr}")
         tqdm.write(f"        预测总功率: {powerValue:.3f}")
-        realPower: Optional[float] = dataframe.at[timeObj, "总功率"]
-        if realPower is None:
-            tqdm.write(f"        实际总功率: 未知")
-        else:
+        try:
+            realPower: Optional[float] = dataframe.at[timeObj, "总功率"]
             tqdm.write(f"        实际总功率: {realPower}")
             tqdm.write(f"        预测偏差: {powerValue - realPower:.3f}")
+        except KeyError:
+            tqdm.write(f"        实际总功率: 未知")
+
     tqdm.write(f"'用电预测1'已完成。总耗时：{formatDuration(time.time() - startTime)}")
 
 
