@@ -25,7 +25,7 @@ DATA_LENGTH = 1440
 PREDICT_LENGTH = 10
 VERIFY_SPLIT = 0.8
 
-DATA_KEEP = 0.01
+DATA_KEEP = 0.04
 BATCH_SIZE = 64
 EPOCHS = 20
 LEARNING_RATE = 1e-3
@@ -197,6 +197,7 @@ def main():
     del matrix
     lastTimestamp = int(inData[-1][-1][timeIndex])
     # 老实了，我一开始还不知道scaler有什么用，结果transformer对0.x-2.x这么小范围的值不敏感。
+    # 笑点解析：归一化后效果一样差
     inScaler = Scaler3D(TRAIN_MODE, IN_SCALER_OUTPUT, inData.shape[2])
     outScaler = Scaler(TRAIN_MODE, OUT_SCALER_OUTPUT)
     inData = inScaler.transform(inData)
